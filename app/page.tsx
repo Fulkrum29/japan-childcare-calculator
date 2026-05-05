@@ -339,6 +339,61 @@ else {
 
           </div>
         </div>
+
+{/* FAQ SECTION */}
+<section className="px-6 pb-24">
+  <div className="max-w-4xl mx-auto">
+
+    <h2 className="text-4xl font-bold text-center mb-12">
+      Frequently Asked Questions
+    </h2>
+
+    <div className="grid gap-6">
+
+      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+        <h3 className="text-xl font-semibold mb-3">
+          Is childcare free in Japan?
+        </h3>
+
+        <p className="text-slate-700 leading-relaxed">
+          In many municipalities, children aged 3 to 5 qualify for free or heavily subsidized childcare and kindergarten programs under Japan’s national childcare support policies. Additional costs may still apply depending on meals, extended care, and facility type.
+        </p>
+      </div>
+
+      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+        <h3 className="text-xl font-semibold mb-3">
+          How are daycare fees calculated in Japan?
+        </h3>
+
+        <p className="text-slate-700 leading-relaxed">
+          Childcare fees in Japan are commonly determined based on household income, municipal resident tax brackets, child age, number of children in the household, and the type of certified childcare facility.
+        </p>
+      </div>
+
+      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+        <h3 className="text-xl font-semibold mb-3">
+          Are childcare fees different by city?
+        </h3>
+
+        <p className="text-slate-700 leading-relaxed">
+          Yes. Municipalities and prefectures often apply different fee schedules, subsidy programs, and extended care charges. Costs in Tokyo and other large cities are usually higher than rural areas.
+        </p>
+      </div>
+
+      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+        <h3 className="text-xl font-semibold mb-3">
+          What is the difference between Hoikuen and Yochien?
+        </h3>
+
+        <p className="text-slate-700 leading-relaxed">
+          Hoikuen are daycare centers primarily designed for working families and longer childcare hours, while Yochien are kindergartens focused more on early childhood education with shorter schedules.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
       </section>
     </main>
   );
