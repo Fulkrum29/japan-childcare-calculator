@@ -160,7 +160,7 @@ else {
   <Image
     src={logo}
     alt="Japan Childcare Calculator Logo"
-    className="w-36 h-auto mb-6"
+    className="w-42 h-auto mb-6"
     priority
   />
 
