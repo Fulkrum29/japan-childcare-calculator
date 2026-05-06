@@ -395,6 +395,34 @@ else {
 </section>
 
       </section>
+
+<footer className="border-t border-slate-200 bg-white/60 backdrop-blur-lg py-10 px-6">
+  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+
+    <div className="text-slate-600 text-sm text-center md:text-left">
+      © 2025 Japan Childcare Calculator. All rights reserved.
+    </div>
+
+    <div className="flex items-center gap-6 text-sm">
+
+      <a
+        href="/privacy-policy"
+        className="text-slate-600 hover:text-blue-600 transition-colors"
+      >
+        Privacy Policy
+      </a>
+
+      <a
+        href="/terms-of-use"
+        className="text-slate-600 hover:text-blue-600 transition-colors"
+      >
+        Terms of Use
+      </a>
+
+    </div>
+  </div>
+</footer>
+
     </main>
   );
 }
