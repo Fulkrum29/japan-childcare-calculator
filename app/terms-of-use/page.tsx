@@ -3,6 +3,13 @@ export default function TermsOfUsePage() {
     <main className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 text-slate-900 px-6 py-20">
       <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-[32px] shadow-2xl border border-white/40 p-10">
 
+<a
+  href="/"
+  className="inline-block mb-8 text-blue-600 hover:text-blue-800 transition-colors"
+>
+  ← Back to Calculator
+</a>
+
         <h1 className="text-5xl font-bold mb-10">
           Terms of Use
         </h1>
