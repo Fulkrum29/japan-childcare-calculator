@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 
+import Image from "next/image";
+import logo from "./images/logo.png";
+
 export default function Home() {
   const [city, setCity] = useState("Tokyo");
   const [income, setIncome] = useState("");
@@ -152,13 +155,24 @@ else {
 
       <section className="bg-gradient-to-b from-blue-600 to-blue-400 text-white py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl font-bold leading-tight">
-            Japan Childcare Cost Calculator
-          </h1>
+          <div className="flex flex-col items-center">
 
-          <p className="mt-6 text-xl text-blue-100">
-            Estimate daycare and kindergarten fees across Japan instantly.
-          </p>
+  <Image
+    src={logo}
+    alt="Japan Childcare Calculator Logo"
+    className="w-36 h-auto mb-6"
+    priority
+  />
+
+  <h1 className="text-5xl font-bold leading-tight text-center">
+    Japan Childcare Cost Calculator
+  </h1>
+
+  <p className="mt-6 text-xl text-blue-100 text-center max-w-2xl">
+    Estimate daycare and kindergarten fees across Japan instantly.
+  </p>
+
+</div>
         </div>
       </section>
 
