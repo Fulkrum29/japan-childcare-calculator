@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-
 import Image from "next/image";
 import logo from "./images/logo.png";
 
@@ -17,10 +16,20 @@ export default function Home() {
   const calculateFees = () => {
     const incomeNumber = Number(income);
     const childAge = Number(age);
+    const childCount = Number(children) || 1;
 
+    // NATIONAL FREE CHILDCARE RULE
     if (childAge >= 3 && childAge <= 5) {
       setResult(
-        "FREE\n\nChildren aged 3–5 qualify for Japan’s national childcare subsidy program in most municipalities."
+        "FREE\n\nChildren aged 3–5 generally qualify for Japan’s national early childhood education and childcare subsidy program. Meals, extended care, uniforms, activity fees, or facility-specific charges may still apply."
+      );
+      return;
+    }
+
+    // OSAKA CITY FREE RULE
+    if (city === "Osaka") {
+      setResult(
+        "FREE\n\nOsaka City has announced free childcare for children using authorized childcare facilities. Second children aged 0–2 have already been covered from September 2024, and the city plans to expand free childcare to first children from September 2026. Additional costs such as meals, extended care, supplies, or facility-specific services may still apply."
       );
       return;
     }
@@ -79,74 +88,149 @@ export default function Home() {
     };
 
     // TOKYO REALISTIC ESTIMATION
-if (city === "Tokyo") {
+    if (city === "Tokyo") {
+      if (incomeNumber < 2500000) {
+        monthlyFee = 8000;
+      } else if (incomeNumber < 4000000) {
+        monthlyFee = 18000;
+      } else if (incomeNumber < 6000000) {
+        monthlyFee = 32000;
+      } else if (incomeNumber < 8000000) {
+        monthlyFee = 48000;
+      } else {
+        monthlyFee = 62000;
+        explanation =
+          "Tokyo municipalities commonly apply maximum childcare fee brackets for high-income households.";
+      }
 
-  if (incomeNumber < 2500000) {
-    monthlyFee = 8000;
-  } else if (incomeNumber < 4000000) {
-    monthlyFee = 18000;
-  } else if (incomeNumber < 6000000) {
-    monthlyFee = 32000;
-  } else if (incomeNumber < 8000000) {
-    monthlyFee = 48000;
-  } else {
-    monthlyFee = 62000;
-    explanation =
-      "Tokyo municipalities commonly apply maximum childcare fee brackets for high-income households.";
-  }
+      if (childAge <= 1) {
+        monthlyFee += 5000;
+      }
 
-  // AGE ADJUSTMENT
-  if (childAge <= 1) {
-    monthlyFee += 5000;
-  }
+      explanation +=
+        " Estimated using representative Tokyo municipal childcare fee tables.";
+    }
 
-  explanation +=
-    " Estimated using representative Tokyo municipal childcare fee tables.";
+    // SAITAMA CITY ESTIMATION
+    else if (city === "Saitama") {
+      if (incomeNumber < 2500000) {
+        monthlyFee = 7000;
+      } else if (incomeNumber < 4000000) {
+        monthlyFee = 16000;
+      } else if (incomeNumber < 6000000) {
+        monthlyFee = 28000;
+      } else if (incomeNumber < 8000000) {
+        monthlyFee = 42000;
+      } else {
+        monthlyFee = 56000;
+        explanation =
+          "Saitama City may apply upper childcare fee brackets for higher-income households.";
+      }
 
-}
-// OTHER PREFECTURES
-else if (prefectureAverages[city]) {
+      if (childAge <= 1) {
+        monthlyFee += 4000;
+      }
 
-  monthlyFee = prefectureAverages[city];
-  explanation = "Estimated using prefecture average data.";
+      explanation +=
+        " Estimated using representative Saitama City childcare fee patterns. Official fees depend on municipal resident tax and household circumstances.";
+    }
 
-  if (incomeNumber < 3000000) {
-    monthlyFee *= 0.7;
-  } else if (incomeNumber > 8000000) {
-    monthlyFee *= 1.3;
-  }
+    // KYOTO CITY ESTIMATION
+    else if (city === "Kyoto") {
+      if (incomeNumber < 2500000) {
+        monthlyFee = 7500;
+      } else if (incomeNumber < 4000000) {
+        monthlyFee = 17000;
+      } else if (incomeNumber < 6000000) {
+        monthlyFee = 30000;
+      } else if (incomeNumber < 8000000) {
+        monthlyFee = 45000;
+      } else {
+        monthlyFee = 59000;
+        explanation =
+          "Kyoto City may apply upper childcare fee brackets for higher-income households.";
+      }
 
-  monthlyFee = Math.round(monthlyFee);
+      if (childAge <= 1) {
+        monthlyFee += 4500;
+      }
 
-}
-// FALLBACK MAJOR CITIES
-else {
+      explanation +=
+        " Estimated using representative Kyoto City childcare fee patterns. Kyoto City guidance states childcare service fees are part of the official childcare application process and may vary by facility type and certification.";
+    }
 
-  if (incomeNumber < 3000000) {
-    monthlyFee = 12000;
-  } else if (incomeNumber < 6000000) {
-    monthlyFee = 28000;
-  } else {
-    monthlyFee = 57000;
+    // SAPPORO CITY ESTIMATION
+    else if (city === "Sapporo") {
+      if (childCount >= 2) {
+        setResult(
+          "FREE\n\nSapporo City provides strong sibling support, and second children or later may qualify for free childcare depending on the household and facility category. Please confirm with Sapporo City or your ward office for official eligibility."
+        );
+        return;
+      }
 
-    explanation =
-      "This municipality uses a maximum fixed childcare fee for high-income households.";
-  }
+      if (incomeNumber < 2500000) {
+        monthlyFee = 6500;
+      } else if (incomeNumber < 4000000) {
+        monthlyFee = 15000;
+      } else if (incomeNumber < 6000000) {
+        monthlyFee = 27000;
+      } else if (incomeNumber < 8000000) {
+        monthlyFee = 41000;
+      } else {
+        monthlyFee = 55000;
+        explanation =
+          "Sapporo City may apply upper childcare fee brackets for higher-income households.";
+      }
 
-}
+      if (childAge <= 1) {
+        monthlyFee += 4000;
+      }
+
+      explanation +=
+        " Estimated using representative Sapporo City childcare fee patterns. Sapporo distinguishes regular-time childcare and short-time childcare, and extended childcare may require extra fees.";
+    }
+
+    // OTHER PREFECTURES
+    else if (prefectureAverages[city]) {
+      monthlyFee = prefectureAverages[city];
+      explanation = "Estimated using prefecture average data.";
+
+      if (incomeNumber < 3000000) {
+        monthlyFee *= 0.7;
+      } else if (incomeNumber > 8000000) {
+        monthlyFee *= 1.3;
+      }
+
+      monthlyFee = Math.round(monthlyFee);
+    }
+
+    // FALLBACK MAJOR CITIES
+    else {
+      if (incomeNumber < 3000000) {
+        monthlyFee = 12000;
+      } else if (incomeNumber < 6000000) {
+        monthlyFee = 28000;
+      } else {
+        monthlyFee = 57000;
+        explanation =
+          "This municipality uses a maximum fixed childcare fee for high-income households.";
+      }
+    }
 
     if (hours === "Extended") {
       monthlyFee += 5000;
+      explanation += " Extended care is estimated as an additional monthly charge.";
     }
 
-    if (Number(children) >= 2) {
+    if (childCount >= 2) {
       monthlyFee = Math.round(monthlyFee * 0.8);
+      explanation += " A sibling discount estimate has been applied to the total estimated household childcare cost.";
     }
 
     const yearlyFee = monthlyFee * 12;
 
     setResult(
-      `Estimated Monthly Fee:\n¥${monthlyFee.toLocaleString()}${monthlyFee >= 57000 ? " (Fixed)" : ""}\n\nEstimated Yearly Fee:\n¥${yearlyFee.toLocaleString()}\n\n${explanation}`
+      `Estimated Monthly Fee:\n¥${monthlyFee.toLocaleString()}${monthlyFee >= 55000 ? " (Fixed)" : ""}\n\nEstimated Yearly Fee:\n¥${yearlyFee.toLocaleString()}\n\n${explanation}`
     );
   };
 
@@ -157,22 +241,22 @@ else {
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex flex-col items-center">
 
-  <Image
-    src={logo}
-    alt="Japan Childcare Calculator Logo"
-    className="w-64 h-auto mb-6"
-    priority
-  />
+            <Image
+              src={logo}
+              alt="Japan Childcare Calculator Logo"
+              className="w-36 h-auto mb-6"
+              priority
+            />
 
-  <h1 className="text-5xl font-bold leading-tight text-center">
-    Japan Childcare Cost Calculator
-  </h1>
+            <h1 className="text-5xl font-bold leading-tight text-center">
+              Japan Childcare Cost Calculator
+            </h1>
 
-  <p className="mt-6 text-xl text-blue-100 text-center max-w-2xl">
-    Estimate daycare and kindergarten fees across Japan instantly.
-  </p>
+            <p className="mt-6 text-xl text-blue-100 text-center max-w-2xl">
+              Estimate daycare and kindergarten fees across Japan instantly.
+            </p>
 
-</div>
+          </div>
         </div>
       </section>
 
@@ -342,101 +426,101 @@ else {
             </button>
 
             {result && (
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-3xl p-6 text-lg leading-relaxed shadow-md whitespace-pre-line">
-                {result}
-              </div>
-            )}
+              <>
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-3xl p-6 text-lg leading-relaxed shadow-md whitespace-pre-line">
+                  {result}
+                </div>
 
-            <div className="text-sm text-slate-500 leading-relaxed mt-6 border-t border-slate-200 pt-4">
-              Disclaimer: This calculator provides estimated childcare and kindergarten fee approximations based on publicly available municipal, prefectural, and national information in Japan. Actual childcare costs may vary depending on municipality policies, household taxation, subsidy eligibility, child age, family circumstances, facility classification, extended care usage, annual policy revisions, and additional local fees. Results are provided for informational and reference purposes only and should not be considered official financial, legal, or governmental advice. Please consult your local municipality or childcare provider for official fee determinations.
-              </div>
+                <div className="text-sm text-slate-500 leading-relaxed mt-6 border-t border-slate-200 pt-4">
+                  Disclaimer: This calculator provides estimated childcare and kindergarten fee approximations based on publicly available municipal, prefectural, and national information in Japan. Actual childcare costs may vary depending on municipality policies, household taxation, subsidy eligibility, child age, family circumstances, facility classification, extended care usage, annual policy revisions, and additional local fees. Results are provided for informational and reference purposes only and should not be considered official financial, legal, or governmental advice. Please consult your local municipality or childcare provider for official fee determinations.
+                </div>
+              </>
+            )}
 
           </div>
         </div>
-
-{/* FAQ SECTION */}
-<section className="px-6 pb-24">
-  <div className="max-w-4xl mx-auto">
-
-    <h2 className="text-4xl font-bold text-center mb-12">
-      Frequently Asked Questions
-    </h2>
-
-    <div className="grid gap-6">
-
-      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
-        <h3 className="text-xl font-semibold mb-3">
-          Is childcare free in Japan?
-        </h3>
-
-        <p className="text-slate-700 leading-relaxed">
-          In many municipalities, children aged 3 to 5 qualify for free or heavily subsidized childcare and kindergarten programs under Japan’s national childcare support policies. Additional costs may still apply depending on meals, extended care, and facility type.
-        </p>
-      </div>
-
-      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
-        <h3 className="text-xl font-semibold mb-3">
-          How are daycare fees calculated in Japan?
-        </h3>
-
-        <p className="text-slate-700 leading-relaxed">
-          Childcare fees in Japan are commonly determined based on household income, municipal resident tax brackets, child age, number of children in the household, and the type of certified childcare facility.
-        </p>
-      </div>
-
-      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
-        <h3 className="text-xl font-semibold mb-3">
-          Are childcare fees different by city?
-        </h3>
-
-        <p className="text-slate-700 leading-relaxed">
-          Yes. Municipalities and prefectures often apply different fee schedules, subsidy programs, and extended care charges. Costs in Tokyo and other large cities are usually higher than rural areas.
-        </p>
-      </div>
-
-      <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
-        <h3 className="text-xl font-semibold mb-3">
-          What is the difference between Hoikuen and Yochien?
-        </h3>
-
-        <p className="text-slate-700 leading-relaxed">
-          Hoikuen are daycare centers primarily designed for working families and longer childcare hours, while Yochien are kindergartens focused more on early childhood education with shorter schedules.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
       </section>
 
-<footer className="border-t border-slate-200 bg-white/60 backdrop-blur-lg py-10 px-6">
-  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* FAQ SECTION */}
+      <section className="px-6 pb-24">
+        <div className="max-w-4xl mx-auto">
 
-    <div className="text-slate-600 text-sm text-center md:text-left">
-      © 2025 Japan Childcare Calculator. All rights reserved.
-    </div>
+          <h2 className="text-4xl font-bold text-center mb-12">
+            Frequently Asked Questions
+          </h2>
 
-    <div className="flex items-center gap-6 text-sm">
+          <div className="grid gap-6">
 
-      <a
-        href="/privacy-policy"
-        className="text-slate-600 hover:text-blue-600 transition-colors"
-      >
-        Privacy Policy
-      </a>
+            <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+              <h3 className="text-xl font-semibold mb-3">
+                Is childcare free in Japan?
+              </h3>
 
-      <a
-        href="/terms-of-use"
-        className="text-slate-600 hover:text-blue-600 transition-colors"
-      >
-        Terms of Use
-      </a>
+              <p className="text-slate-700 leading-relaxed">
+                In many municipalities, children aged 3 to 5 qualify for free or heavily subsidized childcare and kindergarten programs under Japan’s national childcare support policies. Additional costs may still apply depending on meals, extended care, and facility type.
+              </p>
+            </div>
 
-    </div>
-  </div>
-</footer>
+            <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+              <h3 className="text-xl font-semibold mb-3">
+                How are daycare fees calculated in Japan?
+              </h3>
 
+              <p className="text-slate-700 leading-relaxed">
+                Childcare fees in Japan are commonly determined based on household income, municipal resident tax brackets, child age, number of children in the household, and the type of certified childcare facility.
+              </p>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+              <h3 className="text-xl font-semibold mb-3">
+                Are childcare fees different by city?
+              </h3>
+
+              <p className="text-slate-700 leading-relaxed">
+                Yes. Municipalities and prefectures often apply different fee schedules, subsidy programs, and extended care charges. Costs in Tokyo and other large cities are usually higher than rural areas.
+              </p>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-lg p-6 border border-white/40">
+              <h3 className="text-xl font-semibold mb-3">
+                What is the difference between Hoikuen and Yochien?
+              </h3>
+
+              <p className="text-slate-700 leading-relaxed">
+                Hoikuen are daycare centers primarily designed for working families and longer childcare hours, while Yochien are kindergartens focused more on early childhood education with shorter schedules.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-slate-200 bg-white/60 backdrop-blur-lg py-10 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+
+          <div className="text-slate-600 text-sm text-center md:text-left">
+            © 2025 Japan Childcare Calculator. All rights reserved.
+          </div>
+
+          <div className="flex items-center gap-6 text-sm">
+
+            <a
+              href="/privacy-policy"
+              className="text-slate-600 hover:text-blue-600 transition-colors"
+            >
+              Privacy Policy
+            </a>
+
+            <a
+              href="/terms-of-use"
+              className="text-slate-600 hover:text-blue-600 transition-colors"
+            >
+              Terms of Use
+            </a>
+
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
